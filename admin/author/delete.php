@@ -1,23 +1,18 @@
 <?php
 
-// admin/author/create.php
+// admin/author/delete.php
 
 require '../../bootstrap.php';
 /** @var PDO $connection */
 
-use Entity\Author;
-use Manager\AuthorManager;
+// Récupérer l'auteur d'après le paramètre d'URL
 
-$manager = new AuthorManager($connection);
-$author = new Author();
+// Si le formulaire a été soumis et la case de confirmation est cochée
+if (isset($_POST['author_delete']) && ($_POST['confirm'] === '1')) {
+    // Supprimer l'auteur de la base de données
 
-// Si le formulaire a été soumis
-if (isset($_POST['author_create'])) {
-    // Met à jour l'auteur avec les données saisies par l'internaute
-    $author->setName($_POST['name']);
+    // Rediriger l'internaute vers la page index
 
-    // Insérer dans la base de données
-    $manager->insert($author);
 }
 ?>
 <!doctype html>
@@ -39,20 +34,24 @@ if (isset($_POST['author_create'])) {
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Créer un nouvel auteur</h1>
+                <h1 class="h2">Supprimer l'auteur</h1>
             </div>
 
-            <form action="/admin/author/create.php" method="post">
+            <form action="" method="post"><!-- TODO action -->
                 <div class="form-group row">
-                    <label for="name" class="col-sm-2 col-form-label">Nom</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="name" name="name">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="confirm" name="confirm" value="1">
+                            <label class="form-check-label" for="confirm">
+                                Confirmer la suppression ?
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-10 offset-sm-2">
-                        <button name="author_create" type="submit" class="btn btn-primary">
-                            Enregistrer
+                        <button name="author_delete" type="submit" class="btn btn-danger">
+                            Supprimer
                         </button>
                     </div>
                 </div>
